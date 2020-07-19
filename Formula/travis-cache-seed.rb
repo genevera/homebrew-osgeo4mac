@@ -32,12 +32,12 @@ class TravisCacheSeed < Formula
   # depends on "gpg-agent"
   depends_on "gpsbabel-qt4"
   depends_on "gsl"
-  # depends on "homebrew/science/insighttoolkit"
-  # depends on "homebrew/science/osgearth"
+  # depends on "brewsci/science/insighttoolkit"
+  # depends on "brewsci/science/osgearth"
   depends_on "jpeg"
   depends_on "lbzip2"
   # depends on "libevent"
-  depends_on "libgeotiff"
+  depends_on "osgeo-libgeotiff"
   depends_on "libgpg-error"
   depends_on "libharu"
   depends_on "libkml"
@@ -52,12 +52,12 @@ class TravisCacheSeed < Formula
   # depends on "numpy"
   depends_on "open-scene-graph"
   depends_on "openssl"
-  depends_on "ossim"
+  depends_on "osgeo-ossim"
   depends_on "pcre"
   depends_on "pkg-config" => :build
   # depends on "postgis" # creates dep on gdal 1.x
-  depends_on "postgresql"
-  depends_on "proj"
+  depends_on "osgeo-postgresql"
+  depends_on "osgeo-proj"
   depends_on "pyenv"
   depends_on "pyqt-qt4"
   depends_on "pyspatialite"
@@ -87,7 +87,7 @@ class TravisCacheSeed < Formula
     (share/"blank").write "blank"
   end
 
-  def caveats; <<-EOS.undent
+  def caveats; <<~EOS
     Formula does not install anything per se. Just updates cache at Travis CI
     with geospatial dependencies to reduce build times of larger formulae.
 

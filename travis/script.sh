@@ -18,12 +18,35 @@
 set -e
 
 for f in ${CHANGED_FORMULAE};do
-#  if [[ $(brew list --versions ${f}) ]]; then
-#    echo "Clearing previously installed/cached formula ${f}..."
-#    brew uninstall --force --ignore-dependencies ${f} || true
-#  fi
+  deps=$(brew deps --include-build ${f})
+
+  # fix error: Unable to import PyQt5.QtCore
+  # build qscintilla2
+  if [ "$(echo ${deps} | grep -c 'osgeo-pyqt')" != "0" ];then
+    brew reinstall ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/osgeo-pyqt
+    brew unlink osgeo-pyqt && brew link osgeo-pyqt --force
+    /usr/local/bin/pip2 install enum34
+    /usr/local/bin/python2 -c "import PyQt5.QtCore"
+    /usr/local/bin/python3 -c "import PyQt5.QtCore"
+  fi
+
+  # fix error: 'libintl.h' file not found
+  # build qgis with grass
+  if [ "$(echo ${deps} | grep -c 'osgeo-grass')" != "0" ];then
+    brew reinstall gettext
+    brew unlink gettext && brew link --force gettext
+  fi
+
+  # if [[ $(brew list --versions ${f}) ]]; then
+  #   echo "Clearing previously installed/cached formula ${f}..."
+  #   brew uninstall --force --ignore-dependencies ${f} || true
+  # fi
+
   echo "Installing changed formula ${f}..."
-  brew install --build-bottle ${TRAVIS_REPO_SLUG}/${f}&
+  # Default installation flag set
+  FLAGS="--build-bottle"
+
+  brew install ${FLAGS} ${TRAVIS_REPO_SLUG}/${f}&
   PID=$!
   # add progress to ensure Travis doesn't complain about no output
   while true; do

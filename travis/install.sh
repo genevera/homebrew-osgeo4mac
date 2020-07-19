@@ -19,7 +19,9 @@ set -e
 
 for f in ${CHANGED_FORMULAE};do
   echo "Installing dependencies for changed formula ${f}..."
-  brew install --only-dependencies --build-bottle ${TRAVIS_REPO_SLUG}/${f}&
+  FLAGS="--only-dependencies --build-bottle"
+
+  brew install ${FLAGS} ${TRAVIS_REPO_SLUG}/${f}&
   PID=$!
   # add progress to ensure Travis doesn't complain about no output
   while true; do

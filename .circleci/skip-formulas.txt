@@ -1,0 +1,4 @@
+ossgeo-gdal-ecwjp2
+osgeo-gdal-oracle
+osgeo-gdal-mrsid
+gpkgtools

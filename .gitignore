@@ -1,0 +1,9 @@
+*.orig
+
+.idea/
+**/*.iml
+
+/docs/_site
+/docs/.jekyll-metadata
+/docs/.sass-cache
+/docs/Gemfile.lock
